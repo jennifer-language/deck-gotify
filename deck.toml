@@ -1,0 +1,18 @@
+[package]
+name = "@jennifer/gotify"
+version = "0.1.0"
+description = "Push notifications to a Gotify server"
+license = "LGPL-3.0-only"
+authors = ["mplx <mplx@jennifer-lang.dev>"]
+# net - every push is an HTTP POST through the `http` module. The stock
+#       `jennifer-tiny` has no network driver, so pushes need the default binary.
+capabilities = ["net"]
+keywords = ["gotify", "notifications", "push"]
+
+[package.urls]
+deck = "https://raw.githubusercontent.com/jennifer-language/deck-gotify/main/deck.toml"
+homepage = "https://github.com/jennifer-language/deck-gotify"
+manual = "https://jennifer-language.github.io/deck-gotify/"
+
+[engines]
+jennifer = ">=0.25.0"

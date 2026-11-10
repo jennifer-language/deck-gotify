@@ -37,7 +37,7 @@ func answerOne(srv as httpd.Server) {
         path: httpd.path($req),
         key: httpd.header($req, "X-Gotify-Key"),
         contentType: httpd.header($req, "Content-Type"),
-        body: convert.stringFromBytes(httpd.body($req), "utf-8")
+        body: convert.stringFromBytes("utf-8", httpd.body($req))
     };
     if ($seen.key == "secret-token") {
         httpd.respond($req, 200, '{"id": 1}');

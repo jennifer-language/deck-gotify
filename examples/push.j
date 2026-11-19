@@ -6,6 +6,9 @@
 /**
  * Push a notification: GOTIFY_URL=... GOTIFY_TOKEN=... jennifer run examples/push.j
  *
+ * A plain http:// GOTIFY_URL to a host other than this machine also needs
+ * GOTIFY_INSECURE_HTTP=1; the token then travels unencrypted, so use it only
+ * on a trusted LAN.
  * Without both variables it prints a hint and pushes nothing; when the server
  * cannot be reached it prints the error.
  */
@@ -18,11 +21,16 @@ import "../src/gotify.j" as gotify;
 
 def url as string init os.getEnv("GOTIFY_URL");
 def token as string init os.getEnv("GOTIFY_TOKEN");
+def insecure as bool init os.getEnv("GOTIFY_INSECURE_HTTP") == "1";
 
 if (len($url) == 0 or len($token) == 0) {
     io.printf("set GOTIFY_URL and GOTIFY_TOKEN to push a notification\n");
 } else {
-    def g as gotify.Config init gotify.Config{url: $url, token: $token};
+    def g as gotify.Config init gotify.Config{
+        url: $url,
+        token: $token,
+        allowInsecureHttp: $insecure
+    };
     try {
         def r as http.Response init gotify.push($g, "Jennifer", "Hello from @jennifer/gotify", 5);
         io.printf("push -> %d %s\n", $r.status, $r.statusText);

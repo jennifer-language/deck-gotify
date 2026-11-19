@@ -7,8 +7,9 @@
 Sends push notifications to a [Gotify](https://gotify.net) server from a
 [Jennifer](https://jennifer-lang.dev/) program, with optional markdown bodies
 and tap-to-open URLs. Replaces the `gotify` module of Jennifer's standard
-library (shipped since 0.18.0, deprecated from 0.26.0, removed in 0.28.0);
-the API is unchanged, only the import differs.
+library (shipped since 0.18.0, deprecated from 0.26.0, removed in 0.28.0)
+with the same calls; `Config` gains `allowInsecureHttp`, and a plain
+`http://` server URL to a non-loopback host is refused unless it is set.
 
 **[Documentation](https://jennifer-language.github.io/deck-gotify/)**
 
@@ -27,12 +28,20 @@ This vendors the deck to `vendor/jennifer/gotify/`. Without `jvc`, unpack the
 import "@jennifer/gotify/" as gotify;
 import "http.j" as http;
 
-def g as gotify.Config init gotify.Config{url: os.getEnv("GOTIFY_URL"), token: os.getEnv("GOTIFY_TOKEN")};
+def g as gotify.Config init gotify.Config{
+    url: os.getEnv("GOTIFY_URL"),
+    token: os.getEnv("GOTIFY_TOKEN"),
+    allowInsecureHttp: false
+};
 def r as http.Response init gotify.push($g, "Deploy", "build 1234 is live", 5);
 io.printf("%d\n", $r.status);   # 200; a wrong token is 401, not an error
 ```
 
 `examples/push.j` pushes a plain and a tap-to-open notification.
+
+The URL must be `https://`; plain `http://` is accepted only to a loopback
+host, or with `allowInsecureHttp: true` for a server on a trusted LAN (the
+token is then sent unencrypted).
 
 ## Requirements
 

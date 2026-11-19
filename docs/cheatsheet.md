@@ -13,7 +13,10 @@ import "http.j" as http;
 
 Every push POSTs to `<url>/message` with `X-Gotify-Key: <token>` and returns
 the `http.Response` unchecked: `200` on success, `401` for a wrong token.
-Transport failures throw from `http`.
+Transport failures throw from `http`. A `url` other than `https://`, or
+`http://` to a loopback host (127.0.0.0/8, `[::1]`, `localhost`), throws
+`Error{kind: "gotify"}` before anything is sent, unless `allowInsecureHttp`
+is set.
 
 ## Types
 
@@ -23,6 +26,7 @@ Transport failures throw from `http`.
 |---|---|
 | `url as string` | server URL without a trailing slash |
 | `token as string` | application token |
+| `allowInsecureHttp as bool` | allow plain `http://` to a non-loopback host; `false` by default (the token then travels unencrypted) |
 
 ### `Extras`
 

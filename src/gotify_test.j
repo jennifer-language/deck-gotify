@@ -92,7 +92,11 @@ func testPushPostsTheForm() {
     def t as task of Seen init spawn {
         return answerOne($srv);
     };
-    def g as Config init Config{url: "http://" + httpd.address($srv), token: "secret-token"};
+    def g as Config init Config{
+        url: "http://" + httpd.address($srv),
+        token: "secret-token",
+        allowInsecureHttp: false
+    };
     def r as http.Response init push($g, "Deploy", "build 1234 & up", 5);
     def seen as Seen init task.wait($t);
     httpd.shutdown($srv);
@@ -109,7 +113,11 @@ func testBadTokenIsAResponse() {
     def t as task of Seen init spawn {
         return answerOne($srv);
     };
-    def g as Config init Config{url: "http://" + httpd.address($srv), token: "wrong"};
+    def g as Config init Config{
+        url: "http://" + httpd.address($srv),
+        token: "wrong",
+        allowInsecureHttp: false
+    };
     def r as http.Response init push($g, "X", "Y", 1);
     task.wait($t);
     httpd.shutdown($srv);
@@ -121,7 +129,11 @@ func testPushExtrasPostsJson() {
     def t as task of Seen init spawn {
         return answerOne($srv);
     };
-    def g as Config init Config{url: "http://" + httpd.address($srv), token: "secret-token"};
+    def g as Config init Config{
+        url: "http://" + httpd.address($srv),
+        token: "secret-token",
+        allowInsecureHttp: false
+    };
     def r as http.Response init pushWith($g, "Deploy", "done", 8, "https://x.example/go");
     def seen as Seen init task.wait($t);
     httpd.shutdown($srv);
@@ -140,7 +152,11 @@ func testPushMarkdownSetsTheContentType() {
     def t as task of Seen init spawn {
         return answerOne($srv);
     };
-    def g as Config init Config{url: "http://" + httpd.address($srv), token: "secret-token"};
+    def g as Config init Config{
+        url: "http://" + httpd.address($srv),
+        token: "secret-token",
+        allowInsecureHttp: false
+    };
     def r as http.Response init pushMarkdown($g, "Report", "# Done", 5);
     def seen as Seen init task.wait($t);
     httpd.shutdown($srv);
@@ -157,11 +173,92 @@ func testPushExtrasWithZeroExtrasSendsNone() {
     def t as task of Seen init spawn {
         return answerOne($srv);
     };
-    def g as Config init Config{url: "http://" + httpd.address($srv), token: "secret-token"};
+    def g as Config init Config{
+        url: "http://" + httpd.address($srv),
+        token: "secret-token",
+        allowInsecureHttp: false
+    };
     def r as http.Response init pushExtras($g, "T", "M", 1, Extras{markdown: false, clickUrl: ""});
     def seen as Seen init task.wait($t);
     httpd.shutdown($srv);
     testing.assertEqual($r.status, 200);
     testing.assertEqual($seen.contentType, "application/json");
     testing.assertEqual(json.has(json.decode($seen.body), "/extras"), false);
+}
+
+/**
+ * The kind a push to `url` throws, or "" when it is not refused. A refused
+ * URL throws before any connection, so the hosts need not exist.
+ *
+ * @param url {string} the server URL
+ * @param insecure {bool} the `allowInsecureHttp` setting
+ * @return {string} the error kind, "" when `checkUrl` passes
+ */
+func refusal(url as string, insecure as bool) {
+    try {
+        checkUrl(Config{url: $url, token: "secret-token", allowInsecureHttp: $insecure});
+    } catch (e) {
+        return $e.kind;
+    }
+    return "";
+}
+
+func testPlainHttpToALanHostIsRefused() {
+    for (def url in [
+        "http://192.168.1.10:8080",
+        "HTTP://unraid.local",
+        "http://localhost.example.com",
+        "http://127.0.0.1@evil.example",
+        "http://127.0.0.1.evil.example",
+        "http://128.0.0.1",
+        "http://127.0.0.256",
+        "http://[::2]",
+        "htps://push.example.com",
+        "push.example.com",
+        ""
+    ]) {
+        testing.assertEqual(refusal($url, false), "gotify");
+    }
+}
+
+func testHttpsAndLoopbackAreAllowed() {
+    for (def url in [
+        "https://push.example.com",
+        "HTTPS://push.example.com",
+        "http://127.0.0.1:8080",
+        "http://127.1.2.3",
+        "http://localhost",
+        "http://LOCALHOST:80/gotify",
+        "http://user:pass@127.0.0.1",
+        "http://[::1]:9"
+    ]) {
+        testing.assertEqual(refusal($url, false), "");
+    }
+}
+
+func testAllowInsecureHttpOptsIn() {
+    testing.assertEqual(refusal("http://192.168.1.10:8080", true), "");
+    testing.assertEqual(refusal("http://tower.lan", true), "");
+    # The opt-in is for plain http only; another scheme is still refused.
+    testing.assertEqual(refusal("ftp://192.168.1.10", true), "gotify");
+}
+
+func testPushRefusesPlainHttpBeforeSending() {
+    def g as Config init Config{
+        url: "http://gotify.invalid",
+        token: "secret-token",
+        allowInsecureHttp: false
+    };
+    def kinds as list of string;
+    try {
+        push($g, "T", "M", 1);
+    } catch (e) {
+        $kinds[] = $e.kind;
+    }
+    try {
+        pushExtras($g, "T", "M", 1, Extras{markdown: true, clickUrl: ""});
+    } catch (e) {
+        $kinds[] = $e.kind;
+    }
+    testing.assertEqual($kinds, ["gotify", "gotify"]);
 }

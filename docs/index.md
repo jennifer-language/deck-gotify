@@ -21,7 +21,11 @@ The trailing slash resolves to the entry module.
 ## Pushing
 
 ```jennifer
-def g as gotify.Config init gotify.Config{url: "https://push.example.com", token: "AqB3cD..."};
+def g as gotify.Config init gotify.Config{
+    url: "https://push.example.com",
+    token: "AqB3cD...",
+    allowInsecureHttp: false
+};
 def r as http.Response init gotify.push($g, "Deploy", "build 1234 is live", 5);
 if ($r.status != 200) {
     io.printf("gotify: %d %s\n", $r.status, $r.body);
@@ -37,6 +41,30 @@ in Gotify's [priority](https://gotify.net/docs/priority) docs.
 The deck keeps no state: pass the `Config` to every call. Read the URL and
 token from the environment or a config file; `examples/push.j` uses
 `GOTIFY_URL` and `GOTIFY_TOKEN`.
+
+## Transport security
+
+The application token travels in a header, so `url` must be `https://`. Plain
+`http://` is accepted without asking only to a loopback host (127.0.0.0/8,
+`[::1]`, `localhost`), where the request never leaves the machine. Any other
+URL throws `Error{kind: "gotify"}` before a connection is made; the message
+leaves the URL out.
+
+A self-hosted Gotify that only speaks plain HTTP, such as a homelab server on
+Unraid reached as `http://tower.lan:8080`, needs an explicit opt-in:
+
+```jennifer
+def g as gotify.Config init gotify.Config{
+    url: "http://tower.lan:8080",
+    token: os.getEnv("GOTIFY_TOKEN"),
+    allowInsecureHttp: true
+};
+```
+
+The token and every message then cross the network unencrypted: anyone on the
+path can read the token and push with it. Use this only on a trusted LAN, and
+prefer putting the server behind a TLS reverse proxy. `examples/push.j` sets
+the flag when `GOTIFY_INSECURE_HTTP=1`.
 
 ## Extras
 
@@ -68,7 +96,9 @@ With a zero `Extras` the body has no `extras` key.
 
 Every push returns the `http.Response` and does not inspect it. Gotify answers
 `200` on success; a wrong token is a `401` response, not an error. A
-transport failure (no server, refused connection, TLS) throws from `http`.
+transport failure (no server, refused connection, TLS) throws from `http`. A
+refused plain `http://` URL (see [Transport security](#transport-security))
+throws `Error{kind: "gotify"}`.
 
 ## Runtime
 
@@ -81,7 +111,8 @@ Jennifer has shipped `gotify` as a standard library module
 (`modules/gotify.j`) since 0.18.0; the extras calls (`pushExtras`,
 `pushMarkdown`, `pushWith`) came in 0.23.0. The module is deprecated from
 Jennifer 0.26.0 and removed in 0.28.0. This deck replaces it with the same
-types and functions; only the import changes:
+types and functions. The import changes, and a `Config` literal names the
+`allowInsecureHttp` field (a deck's struct literal must name every field):
 
 ```jennifer
 import "gotify.j" as gotify;            # before

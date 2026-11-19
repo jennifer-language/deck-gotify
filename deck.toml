@@ -1,6 +1,6 @@
 [package]
 name = "@jennifer/gotify"
-version = "0.2.0-dev"
+version = "0.3.0"
 description = "Push notifications to a Gotify server"
 license = "LGPL-3.0-only"
 authors = ["mplx <mplx@jennifer-lang.dev>"]

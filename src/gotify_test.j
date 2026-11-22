@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.26.0
+# pragma-jennifer-version: >=0.27.0
 
 /**
  * White-box tests for gotify: jennifer test src/gotify_test.j
@@ -9,7 +9,7 @@
  * on a loopback port, which answers one request like Gotify does and hands
  * back what it received.
  */
-use convert;
+use encoding;
 use httpd;
 use task;
 use testing;
@@ -37,7 +37,7 @@ func answerOne(srv as httpd.Server) {
         path: httpd.path($req),
         key: httpd.header($req, "X-Gotify-Key"),
         contentType: httpd.header($req, "Content-Type"),
-        body: convert.stringFromBytes("utf-8", httpd.body($req))
+        body: encoding.decode("utf-8", httpd.body($req))
     };
     if ($seen.key == "secret-token") {
         httpd.respond($req, 200, '{"id": 1}');

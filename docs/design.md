@@ -104,8 +104,8 @@ runs it offline.
 
 ## Dependencies on the interpreter
 
-- The floor is `>=0.26.0`, the release that deprecates the bundled module
-  (M30.1).
+- The floor is `>=0.27.0`, for the UTF-8 codec of `encoding.decode`; the
+  bundled module is deprecated from 0.26.0 (M30.1).
 - `http` needs the `net` capability, so pushing needs the default `jennifer`
   binary; the stock `jennifer-tiny` has no network driver.
 - Encoding uses the bundled `uri` (`encodeForm`) and `json` modules; the

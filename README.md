@@ -45,7 +45,7 @@ token is then sent unencrypted).
 
 ## Requirements
 
-Jennifer 0.26.0 or newer and network access to the Gotify server. Pushes need
+Jennifer 0.27.0 or newer and network access to the Gotify server. Pushes need
 the default `jennifer` binary; the stock `jennifer-tiny` has no network driver.
 
 ## Development

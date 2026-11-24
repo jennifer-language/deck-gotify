@@ -5,7 +5,7 @@
 
 ## Scope
 
-The deck pushes notifications to a [Gotify](https://gotify.net) server:
+The deck pushes notifications to a [Gotify™](https://gotify.net) server:
 `push` sends a title, a message and a priority, and `pushExtras`,
 `pushMarkdown` and `pushWith` add the two client hints most senders want (a
 markdown body, a URL opened on tap).
@@ -39,8 +39,8 @@ It is deliberately only the sending side of Gotify:
 - **Plain HTTP is an explicit opt-in.** The token is a credential, so `url`
   must be `https://`. `http://` to a loopback host (127.0.0.0/8, `[::1]`,
   `localhost`) is allowed, since the request stays on the machine and tests
-  need it; this matches the Slack and Discord decks. Self-hosted Gotify on a
-  home network (an Unraid box, say) often speaks only HTTP, so
+  need it; this matches the Slack™ and Discord™ decks. Self-hosted Gotify on a
+  home network (an Unraid™ box, say) often speaks only HTTP, so
   `Config.allowInsecureHttp` admits plain `http://` to any host. It is a
   field of `Config` rather than a separate call, because the decision belongs
   to the server the config describes, and it defaults to `false`. The

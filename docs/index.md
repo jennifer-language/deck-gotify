@@ -3,7 +3,7 @@
 
 # @jennifer/gotify
 
-Sends push notifications to a [Gotify](https://gotify.net) server through
+Sends push notifications to a [Gotify™](https://gotify.net) server through
 Jennifer's `http` module. The full API is on the
 [cheatsheet](cheatsheet.md).
 
@@ -51,7 +51,7 @@ URL throws `Error{kind: "gotify"}` before a connection is made; the message
 leaves the URL out.
 
 A self-hosted Gotify that only speaks plain HTTP, such as a homelab server on
-Unraid reached as `http://tower.lan:8080`, needs an explicit opt-in:
+Unraid™ reached as `http://tower.lan:8080`, needs an explicit opt-in:
 
 ```jennifer
 def g as gotify.Config init gotify.Config{
@@ -118,3 +118,11 @@ types and functions. The import changes, and a `Config` literal names the
 import "gotify.j" as gotify;            # before
 import "@jennifer/gotify/" as gotify;   # after: jvc add @jennifer/gotify
 ```
+
+## Trademarks
+
+Unraid™ is a trademark of Lime Technology, Inc. Gotify™ and other product and
+company names may be trademarks of their respective owners. They are used only
+to identify the products this deck works with. This deck is an independent
+project, not affiliated with, sponsored or endorsed by the Gotify project or
+Lime Technology, Inc.

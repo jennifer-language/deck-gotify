@@ -4,7 +4,7 @@
 [![Documentation](https://img.shields.io/badge/docs-github%20pages-blue)](https://jennifer-language.github.io/deck-gotify/)
 [![release](https://img.shields.io/github/v/release/jennifer-language/deck-gotify)](https://github.com/jennifer-language/deck-gotify/releases/latest)
 
-Sends push notifications to a [Gotify](https://gotify.net) server from a
+Sends push notifications to a [Gotify™](https://gotify.net) server from a
 [Jennifer](https://jennifer-lang.dev/) program, with optional markdown bodies
 and tap-to-open URLs. Replaces the `gotify` module of Jennifer's standard
 library (shipped since 0.18.0, deprecated from 0.26.0, removed in 0.28.0)
@@ -63,3 +63,10 @@ LGPL-3.0-only, see [LICENSE](LICENSE). Copyright (C) 2026 mplx &lt;mplx@jennifer
 
 `tools/check-headers.sh` checks every source file's SPDX header against
 `deck.toml`.
+
+## Trademarks
+
+Gotify™ and other product and company names may be trademarks of their
+respective owners. They are used only to identify the products this deck works
+with. This deck is an independent project, not affiliated with, sponsored or
+endorsed by the Gotify project.

@@ -32,14 +32,14 @@ if (len($url) == 0 or len($token) == 0) {
         allowInsecureHttp: $insecure
     };
     try {
-        def r as http.Response init gotify.push($g, "Jennifer", "Hello from @jennifer/gotify", 5);
+        def r as http.Response init gotify.push($g, "Jennifer", "Hello from @deckyard/gotify", 5);
         io.printf("push -> %d %s\n", $r.status, $r.statusText);
         def m as http.Response init gotify.pushWith(
             $g,
             "Jennifer",
             "Tap to open the docs",
             5,
-            "https://jennifer-language.github.io/deck-gotify/");
+            "https://deckyard.github.io/deck-gotify/");
         io.printf("pushWith -> %d %s\n", $m.status, $m.statusText);
     } catch (e) {
         io.printf("no Gotify server at %s (%s)\n", $url, $e.message);

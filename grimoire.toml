@@ -1,7 +1,7 @@
-# Grimoire book configuration for the @jennifer/gotify documentation.
+# Grimoire book configuration for the @deckyard/gotify documentation.
 
 [book]
-title = "@jennifer/gotify"
+title = "@deckyard/gotify"
 description = "Push notifications to a Gotify server"
 language = "en"
 src = "docs"
@@ -18,10 +18,10 @@ navPosition = "left"
 tocPosition = "right"
 tocDepth = 3
 sectionNumbers = true
-titleUrl = "https://jennifer-language.github.io/deck-gotify/"
-repoUrl = "https://github.com/jennifer-language/deck-gotify"
+titleUrl = "https://deckyard.github.io/deck-gotify/"
+repoUrl = "https://github.com/deckyard/deck-gotify"
 repoLabel = "Source"
-editUrl = "https://github.com/jennifer-language/deck-gotify/edit/main/docs/{path}"
+editUrl = "https://github.com/deckyard/deck-gotify/edit/main/docs/{path}"
 
 [highlight]
 enabled = true

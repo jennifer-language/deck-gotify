@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: LGPL-3.0-only -->
 <!-- SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev> -->
 
-# @jennifer/gotify
+# @deckyard/gotify
 
 Sends push notifications to a [Gotify™](https://gotify.net) server through
 Jennifer's `http` module. The full API is on the
@@ -12,7 +12,7 @@ Jennifer's `http` module. The full API is on the
 Snippets assume these imports:
 
 ```jennifer
-import "@jennifer/gotify/" as gotify;
+import "@deckyard/gotify/" as gotify;
 import "http.j" as http;
 ```
 
@@ -105,6 +105,15 @@ throws `Error{kind: "gotify"}`.
 Needs `net`, so it runs on the default `jennifer` binary. The stock
 `jennifer-tiny` has no network driver and every push throws.
 
+## Moving from `@jennifer/gotify`
+
+Up to 0.3.0 this deck was `@jennifer/gotify`. Change the `[decks]` entry to
+`"@deckyard/gotify" = "^0.4.0"` and the imports:
+
+```jennifer
+import "@deckyard/gotify/" as gotify;
+```
+
 ## Moving from the standard library module
 
 Jennifer has shipped `gotify` as a standard library module
@@ -116,7 +125,7 @@ types and functions. The import changes, and a `Config` literal names the
 
 ```jennifer
 import "gotify.j" as gotify;            # before
-import "@jennifer/gotify/" as gotify;   # after: jvc add @jennifer/gotify
+import "@deckyard/gotify/" as gotify;   # after: jvc add @deckyard/gotify
 ```
 
 ## Trademarks

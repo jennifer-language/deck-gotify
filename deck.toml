@@ -1,6 +1,6 @@
 [package]
-name = "@jennifer/gotify"
-version = "0.3.0"
+name = "@deckyard/gotify"
+version = "0.4.0"
 description = "Push notifications to a Gotify server"
 license = "LGPL-3.0-only"
 authors = ["mplx <mplx@jennifer-lang.dev>"]
@@ -10,9 +10,9 @@ capabilities = ["net"]
 keywords = ["gotify", "notifications", "push"]
 
 [package.urls]
-deck = "https://raw.githubusercontent.com/jennifer-language/deck-gotify/main/deck.toml"
-homepage = "https://github.com/jennifer-language/deck-gotify"
-manual = "https://jennifer-language.github.io/deck-gotify/"
+deck = "https://raw.githubusercontent.com/deckyard/deck-gotify/main/deck.toml"
+homepage = "https://github.com/deckyard/deck-gotify"
+manual = "https://deckyard.github.io/deck-gotify/"
 
 [engines]
 jennifer = ">=0.27.0"

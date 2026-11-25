@@ -1,8 +1,8 @@
-# @jennifer/gotify
+# @deckyard/gotify
 
-[![test](https://github.com/jennifer-language/deck-gotify/actions/workflows/test.yml/badge.svg)](https://github.com/jennifer-language/deck-gotify/actions/workflows/test.yml)
-[![Documentation](https://img.shields.io/badge/docs-github%20pages-blue)](https://jennifer-language.github.io/deck-gotify/)
-[![release](https://img.shields.io/github/v/release/jennifer-language/deck-gotify)](https://github.com/jennifer-language/deck-gotify/releases/latest)
+[![test](https://github.com/deckyard/deck-gotify/actions/workflows/test.yml/badge.svg)](https://github.com/deckyard/deck-gotify/actions/workflows/test.yml)
+[![Documentation](https://img.shields.io/badge/docs-github%20pages-blue)](https://deckyard.github.io/deck-gotify/)
+[![release](https://img.shields.io/github/v/release/deckyard/deck-gotify)](https://github.com/deckyard/deck-gotify/releases/latest)
 
 Sends push notifications to a [Gotify™](https://gotify.net) server from a
 [Jennifer](https://jennifer-lang.dev/) program, with optional markdown bodies
@@ -11,21 +11,24 @@ library (shipped since 0.18.0, deprecated from 0.26.0, removed in 0.28.0)
 with the same calls; `Config` gains `allowInsecureHttp`, and a plain
 `http://` server URL to a non-loopback host is refused unless it is set.
 
-**[Documentation](https://jennifer-language.github.io/deck-gotify/)**
+Up to 0.3.0 this deck was `@jennifer/gotify`. To switch, change the `[decks]`
+entry to `"@deckyard/gotify" = "^0.4.0"` and the imports to `"@deckyard/gotify/"`.
+
+**[Documentation](https://deckyard.github.io/deck-gotify/)**
 
 ## Install
 
 ```sh
-jvc add @jennifer/gotify
+jvc add @deckyard/gotify
 ```
 
-This vendors the deck to `vendor/jennifer/gotify/`. Without `jvc`, unpack the
-`src/` subtree of a release archive (`jennifer-gotify-<version>.tar.gz`) there.
+This vendors the deck to `vendor/deckyard/gotify/`. Without `jvc`, unpack the
+`src/` subtree of a release archive (`deckyard-gotify-<version>.tar.gz`) there.
 
 ## Usage
 
 ```jennifer
-import "@jennifer/gotify/" as gotify;
+import "@deckyard/gotify/" as gotify;
 import "http.j" as http;
 
 def g as gotify.Config init gotify.Config{

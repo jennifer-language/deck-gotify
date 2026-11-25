@@ -3,11 +3,11 @@
 
 # gotify cheatsheet
 
-Every export of `@jennifer/gotify`. Background is in
+Every export of `@deckyard/gotify`. Background is in
 [the introduction](index.md).
 
 ```jennifer
-import "@jennifer/gotify/" as gotify;
+import "@deckyard/gotify/" as gotify;
 import "http.j" as http;
 ```
 
